@@ -1,11 +1,31 @@
-from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_openai import ChatOpenAI
 import os
+from langchain.agents import Tool
 
 
+def get_weather(city):
+    print(f"正在获取 {city} 的天气信息...")
+    return f"{city} 当前天气晴朗，温度 -25 摄氏度。"
 
-tools = [TavilySearchResults(max_results=1)]
 
+def book_hotel(city):
+    print("预定酒店：" + city)
+    return f"{city} 酒店已经预定成功"
+
+
+# 创建一个工具
+tools = [
+    Tool(
+        name="GetWeather",
+        func=get_weather,
+        description="获取指定城市的天气情况，输入为城市名称"
+    ),
+    Tool(
+        name="BookHotel",
+        func=book_hotel,
+        description="从这里预定酒店，输入为城市名称"
+    )
+]
 # 选择将驱动代理的LLM
 # 只有某些模型支持这个
 chat = ChatOpenAI(
@@ -36,7 +56,7 @@ agent = create_openai_tools_agent(chat, tools, prompt)
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-from langchain.memory import ChatMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
 demo_ephemeral_chat_history_for_chain = ChatMessageHistory()
@@ -61,4 +81,3 @@ while True:
         },
         {"configurable": {"session_id": "unused"}},
     )
-
