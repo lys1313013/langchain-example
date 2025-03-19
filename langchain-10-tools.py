@@ -1,6 +1,7 @@
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
 from langchain_openai import ChatOpenAI
+import os
 
 # 能调通，但是不稳定
 
@@ -30,14 +31,19 @@ tools = [
 ]
 
 # 初始化语言模型
-llm = ChatOpenAI(base_url="https://api.xty.app/v1", temperature=0)
+llm = chatLLM = ChatOpenAI(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    model="qwen-turbo",
+    temperature=0,
+)
 
 # 初始化代理
 agent = initialize_agent(tools, llm, agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
 # 提出问题
-# question = "北京的天气如何？"
-question = "帮我预定一个北京的酒店"
+question = "北京的天气如何？"
+# question = "帮我预定一个北京的酒店"
 answer = agent.run(question)
 
 print(answer)
