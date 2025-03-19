@@ -1,9 +1,9 @@
+# 多轮对话
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
 from langchain_openai import ChatOpenAI
 import os
 
-# 能调通，但是不稳定
 
 # 定义一个简单的获取天气的函数，这里只是模拟返回结果
 def get_weather(city):
@@ -31,7 +31,7 @@ tools = [
 ]
 
 # 初始化语言模型
-llm = ChatOpenAI(
+llm = chatLLM = ChatOpenAI(
     api_key=os.getenv("DASHSCOPE_API_KEY"),
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
     model="qwen-turbo",
@@ -41,9 +41,10 @@ llm = ChatOpenAI(
 # 初始化代理
 agent = initialize_agent(tools, llm, agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
-# 提出问题
-question = "北京的天气如何？"
-# question = "帮我预定一个北京的酒店"
-answer = agent.invoke(question)
-
-print(answer)
+# 持续对话循环
+while True:
+    question = input("请输入你的问题（输入 '退出' 结束对话）：")
+    if question == "退出":
+        break
+    answer = agent.invoke(question)
+    print(answer)
