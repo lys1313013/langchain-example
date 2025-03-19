@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 # 能调通，但是不稳定
 
