@@ -4,10 +4,8 @@ from langchain_core.prompts import ChatPromptTemplate
 # 引入langchain openai sdk
 from langchain_openai import ChatOpenAI
 
-# 配置非官方URL（也可在环境变量配置OPENAI_API_BASE）
-llm = ChatOpenAI(base_url="https://api.xty.app/v1")
 # 如果是官方URL,使用以下即可
-# llm = ChatOpenAI()
+llm = ChatOpenAI()
 
 # 根据message 定义提示词模板
 # 这里以对话模型的消息格式为例子，不熟悉openai对话模型的话，可以参考官方文档

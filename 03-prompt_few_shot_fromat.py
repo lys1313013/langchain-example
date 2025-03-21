@@ -1,4 +1,3 @@
-from langchain.prompts.few_shot import FewShotPromptTemplate
 from langchain.prompts.prompt import PromptTemplate
 
 examples = [
@@ -12,6 +11,17 @@ examples = [
             跟进:艾伦·图灵去世时多大?
             中间答案:艾伦·图灵去世时41岁。
             所以最终答案是:穆罕默德·阿里
+            """
+    }, {
+        "question": "乔治·华盛顿的祖父母中的母亲是谁？",
+        "answer":
+            """
+            这里需要跟进问题吗；是的。
+            跟进：乔治·华盛顿的母亲是谁？
+            中间答案：乔治·华盛顿的母亲是Mary Ball Washington。
+            跟进：Mary Ball Washington的父亲是谁？
+            中间答案：Mary Ball Washington的父亲是Joseph Ball。
+            所以最终答案是：Joseph Ball
             """
     }, {
         "question": "《大白鲨》和《皇家赌场》的导演都来自同一个国家吗？",
@@ -33,11 +43,4 @@ examples = [
 
 example_prompt = PromptTemplate(input_variables=["question", "answer"], template="问题：{question}\\n{answer}")
 
-prompt = FewShotPromptTemplate(
-    examples=examples,
-    example_prompt=example_prompt,
-    suffix="问题，{input}",
-    input_variables=["input"]
-)
-
-print(prompt.format(input="乔治·华盛顿的父亲是谁"))
+print(example_prompt.format(**examples[0]))

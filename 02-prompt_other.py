@@ -15,7 +15,7 @@ chat_template = ChatPromptTemplate.from_messages(
 )
 
 # 使用模板参数格式化模板
-messages = chat_template.format_messages(text="我不喜欢吃好吃的东西")
+messages = chat_template.format_messages(text="我不喜欢吃难吃的东西")
 print(messages)
 
 # 输出：
