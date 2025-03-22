@@ -1,3 +1,4 @@
+# 将示例选择器提供给FewShotPromptTemplate
 from langchain.prompts.few_shot import FewShotPromptTemplate
 from langchain.prompts.prompt import PromptTemplate
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
