@@ -1,11 +1,9 @@
-# 基于运行内存存储记忆
+# 消息持久化到redis
 import os
-from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_openai import ChatOpenAI
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_community.chat_message_histories import RedisChatMessageHistory
 
 prompt = ChatPromptTemplate.from_messages([
     ("system",
@@ -14,22 +12,20 @@ prompt = ChatPromptTemplate.from_messages([
     ("human", "{input}"),
 ])
 
-model = ChatOpenAI(
+llm = ChatOpenAI(
     api_key=os.getenv("DASHSCOPE_API_KEY"),
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
     model="qwen-turbo",
     temperature=0,
 )
-
-runnable = prompt | model
+runnable = prompt | llm
 
 store = {}
 
+REDIS_URL = "redis://localhost:6379/0"
 
-def get_session_history(session_id: str) -> BaseChatMessageHistory:
-    if session_id not in store:
-        store[session_id] = ChatMessageHistory()
-    return store[session_id]
+def get_session_history(session_id: str) -> RedisChatMessageHistory:
+    return RedisChatMessageHistory(session_id, url=REDIS_URL)
 
 
 with_message_history = RunnableWithMessageHistory(

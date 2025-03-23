@@ -6,6 +6,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 from langchain_core.chat_history import BaseChatMessageHistory
+# 引入langchain会话配置
 from langchain_core.runnables import ConfigurableFieldSpec
 
 prompt = ChatPromptTemplate.from_messages([
