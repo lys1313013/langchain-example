@@ -8,12 +8,12 @@ llm = Ollama(
     num_ctx=4096  # 上下文长度
 )
 
-# 单次对话
-response = llm.invoke("LLM 是什么？")
-print("回答：", response)
+# 流式输出（适合长文本）
+for chunk in llm.stream("LLM 是什么？"):
+    print(chunk, end="", flush=True)
 
 print("===========================================================")
 
-# 流式输出（适合长文本）
-for chunk in llm.stream("LLM 如何学习？"):
-    print(chunk, end="", flush=True)
+# 单次对话
+response = llm.invoke("LLM 如何学习？")
+print("回答：", response)
