@@ -1,4 +1,5 @@
 from langchain_community.llms import Ollama
+# 不被推荐的方式
 
 # 初始化 Ollama 连接
 llm = Ollama(
