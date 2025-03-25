@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
-# 推荐的使用方式
+# 推荐的使用方式（不知道为啥，一台电脑能跑通，一台电脑跑不通）
 
 model = OllamaLLM(
     base_url="http://127.0.0.1:11434",  # Ollama 默认端口
