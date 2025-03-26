@@ -11,10 +11,13 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains import ConversationalRetrievalChain
 from langchain.vectorstores import DocArrayInMemorySearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+# pip install langchain
+# pip install langchain-openai
+# pip install langchain_community
 # pip install sentence-transformers
 # pip install docarray
 # pip install pypdf
-# 源码地址 https://github.com/langchain-ai/streamlit-agent/blob/634e1cecf23d7ca3a4c5e708944673e057765b2a/streamlit_agent/chat_with_documents.py
+# 参考源码地址 https://github.com/langchain-ai/streamlit-agent/blob/634e1cecf23d7ca3a4c5e708944673e057765b2a/streamlit_agent/chat_with_documents.py
 
 st.set_page_config(page_title="文档问答", page_icon="🦜")
 st.title("🦜 文档问答")
