@@ -15,8 +15,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # pip install pypdf
 # 源码地址 https://github.com/langchain-ai/streamlit-agent/blob/634e1cecf23d7ca3a4c5e708944673e057765b2a/streamlit_agent/chat_with_documents.py
 
-st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
-st.title("🦜 LangChain: Chat with Documents")
+st.set_page_config(page_title="PDF文档问答", page_icon="🦜")
+st.title("🦜 PDF文档问答")
 
 
 @st.cache_resource(ttl="1h")
@@ -79,16 +79,13 @@ class PrintRetrievalHandler(BaseCallbackHandler):
         self.status.update(state="complete")
 
 
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.")
-    st.stop()
+openai_api_key = os.getenv("DASHSCOPE_API_KEY")
 
 uploaded_files = st.sidebar.file_uploader(
-    label="Upload PDF files", type=["pdf"], accept_multiple_files=True
+    label="上传PDF文件", type=["pdf"], accept_multiple_files=True
 )
 if not uploaded_files:
-    st.info("Please upload PDF documents to continue.")
+    st.info("上传PDF文档后使用")
     st.stop()
 
 retriever = configure_retriever(uploaded_files)
