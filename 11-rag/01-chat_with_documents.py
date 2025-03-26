@@ -3,6 +3,7 @@ import tempfile
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import TextLoader
 from langchain.memory import ConversationBufferMemory
 from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -15,8 +16,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # pip install pypdf
 # 源码地址 https://github.com/langchain-ai/streamlit-agent/blob/634e1cecf23d7ca3a4c5e708944673e057765b2a/streamlit_agent/chat_with_documents.py
 
-st.set_page_config(page_title="PDF文档问答", page_icon="🦜")
-st.title("🦜 PDF文档问答")
+st.set_page_config(page_title="文档问答", page_icon="🦜")
+st.title("🦜 文档问答")
 
 
 @st.cache_resource(ttl="1h")
@@ -28,7 +29,16 @@ def configure_retriever(uploaded_files):
         temp_filepath = os.path.join(temp_dir.name, file.name)
         with open(temp_filepath, "wb") as f:
             f.write(file.getvalue())
-        loader = PyPDFLoader(temp_filepath)
+
+        # 根据文件扩展名选择加载器
+        if file.name.endswith(".pdf"):
+            loader = PyPDFLoader(temp_filepath)
+        elif file.name.endswith(".txt"):
+            loader = TextLoader(temp_filepath, encoding="utf-8")
+        else:
+            st.error("不支持的文件类型")
+            continue
+
         docs.extend(loader.load())
 
     # Split documents
@@ -82,10 +92,10 @@ class PrintRetrievalHandler(BaseCallbackHandler):
 openai_api_key = os.getenv("DASHSCOPE_API_KEY")
 
 uploaded_files = st.sidebar.file_uploader(
-    label="上传PDF文件", type=["pdf"], accept_multiple_files=True
+    label="上传pdf、txt文件", type=["pdf","txt"], accept_multiple_files=True
 )
 if not uploaded_files:
-    st.info("上传PDF文档后使用")
+    st.info("上传pdf、txt文档后使用")
     st.stop()
 
 retriever = configure_retriever(uploaded_files)
