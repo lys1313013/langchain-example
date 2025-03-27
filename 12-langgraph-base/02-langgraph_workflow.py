@@ -201,7 +201,7 @@ async def main():
 
     # 将生成的图片保存到文件
     graph_png = app.get_graph().draw_mermaid_png()
-    with open("agent_work.png", "wb") as f:
+    with open("langgraph_workflow.png", "wb") as f:
         f.write(graph_png)
 
     # 设置配置，递归限制为50
