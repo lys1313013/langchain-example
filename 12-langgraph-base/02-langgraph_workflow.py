@@ -1,20 +1,33 @@
-# 导入tavily搜索api库
+# 基于LangGraph实现用于执行复杂的多步骤任务。
+# 根据用户输入的目标，生成一个逐步执行的家虎，并按照计划执行任务
+"""
+使用 planner_prompt 生成一个包含多个步骤的计划（Plan）。
+通过 agent_executor 执行计划中的每一步。
+每一步的执行结果会被记录下来，并用于更新状态。
+"""
+# 导入标准库
 import os
+import asyncio
+import operator
+from typing import Annotated, List, Tuple, TypedDict, Union, Literal
 
+# 导入第三方库
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.globals import set_verbose
+from langchain import hub
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+from langgraph.graph import StateGraph, START
+from pydantic import BaseModel, Field
+from langchain_core.prompts import ChatPromptTemplate
+
 set_verbose(True)
 
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
-
 # 创建TavilySearchResults工具，设置最大结果数
 tools = [TavilySearchResults(max_results=1)]
 
-from langchain import hub
-from langchain_openai import ChatOpenAI
-import asyncio
-from langgraph.prebuilt import create_react_agent
 
 # 从LangChain的Hub中获取prompt模板，可以进行修改
 prompt = hub.pull("wfh/react-agent-executor")
@@ -29,9 +42,6 @@ llm = ChatOpenAI(
 )
 agent_executor = create_react_agent(llm, tools)
 
-import operator
-from typing import Annotated, List, Tuple, TypedDict
-
 class PlanExecute(TypedDict):
     input: str
     plan: List[str]
@@ -45,16 +55,11 @@ class PlanExecute(TypedDict):
         "response": str
     }
 
-from pydantic import BaseModel,Field
-
 class Plan(BaseModel):
     """未来要执行的计划"""
     steps: List[str] = Field(
         description="需要执行的不同步骤，应该按顺序排列"
     )
-
-
-from langchain_core.prompts import ChatPromptTemplate
 
 planner_prompt = ChatPromptTemplate.from_messages(
     [
@@ -166,8 +171,6 @@ async def main():
         else:
             return "agent"
 
-    from langgraph.graph import StateGraph, START
-
     # 创建一个状态图，初始化PlanExecute
     workflow = StateGraph(PlanExecute)
 
@@ -218,7 +221,7 @@ async def main():
 asyncio.run(main())
 
 
-# 输出结果示例(存在随机性)
+# 输出结果示例(回答存在随机性)
 """
 
 ================================ System Message ================================
