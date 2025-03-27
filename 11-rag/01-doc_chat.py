@@ -83,7 +83,7 @@ tools = [tool]
 msgs = StreamlitChatMessageHistory()
 # 创建对话缓存区内存
 memory = ConversationBufferMemory(
-    chat_memory = msgs, return_messages=True, memory_Key="chat_history", output_key="output"
+    chat_memory = msgs, return_messages=True, memory_key="chat_history", output_key="output"
 )
 
 # 指令模板
@@ -94,7 +94,7 @@ instructions = """您是一个设计用于查询文档来回答问题的代理�
 """
 
 # 基础提示模板
-base_prompt_template = f"""
+base_prompt_template = """
 {instructions}
 
 TOOLS:
@@ -144,7 +144,7 @@ agent = create_react_agent(llm, tools, prompt)
 
 # 创建Agent执行器
 agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory, verbose=True,
-                               handle_parsing_erros="没有从知识库检索到相似内容")
+                               handle_parsing_errors="没有从知识库检索到相似内容")
 
 # 创建聊天输入框
 user_query = st.chat_input(placeholder="请开始提问吧！")
@@ -162,6 +162,6 @@ if user_query:
         # 执行Agent并获取响应
         response = agent_executor.invoke({"input": user_query}, config=config)
         # 添加助手消息到session_state
-        st.session_state.message.append[{"role": "assistant", "content": response["output"]}]
+        st.session_state.messages.append({"role": "assistant", "content": response["output"]})
         # 显示助手响应
         st.write(response["output"])

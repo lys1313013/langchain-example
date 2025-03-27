@@ -1,16 +1,16 @@
-01-chat_with_documents.py使用流程
+本目录py文件使用流程
 
 1. 先安装依赖
 
 2. 启动命令
 ```bash
- streamlit run .\11-rag\01-chat_with_documents.py
+ streamlit run .\11-rag\文件名称.py
 ```
 
-3. 访问http://localhost:8501/地址
+3. 访问`http://localhost:8501/` 地址
 
 
-4. 上传txt或pdf文件
+4. 上传对应文件
 
 5. 输入问题
 
