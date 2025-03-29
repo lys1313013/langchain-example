@@ -38,9 +38,9 @@ labels = dataset["train"]["label"][:10]
 # 标签1：1 通常表示“正面”情感
 
 # 遍历预测结果和真实标签，并打印每个样本的预测结果和真实标签
-for i, (prediction, label) in enumerate(zip(predictions, labels)):
+for i, (prediction, label, text) in enumerate(zip(predictions, labels, data)):
     prediction_label = "正面评论" if prediction == 1 else "负面评论"
     true_label = "正面评论" if label == 1 else "负面评论"
     is_correct = "正确" if prediction == label else "错误"
-    print(f"Example {i+1}: Prediction: {prediction_label}, True label: {true_label}, Result: {is_correct}")
+    print(f"Example {i+1}: Prediction: {prediction_label}, True label: {true_label}, Result: {is_correct}, Text: {text}")
 
