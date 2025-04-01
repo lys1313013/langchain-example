@@ -13,3 +13,12 @@ chatLLM = ChatOpenAI(
 # 流式输出
 for chunk in chatLLM.stream("什么是langchain?"):
     print(chunk.content, end="", flush=True)
+
+# 非流式输出
+print()
+print("非流式输出")
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "你是谁？"}]
+response = chatLLM.invoke(messages)
+print(response.content)
