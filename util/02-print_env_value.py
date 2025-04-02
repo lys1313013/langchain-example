@@ -15,3 +15,6 @@ print(f"TAVILY_API_KEY: {os.getenv('TAVILY_API_KEY')}")
 print(f"DEEPSEEK_API_KEY", os.getenv("DEEPSEEK_API_KEY"))
 # 阿里百炼 api key
 print(f"DASHSCOPE_API_KEY: {os.getenv('DASHSCOPE_API_KEY')}")
+
+# 查询天气api key 对应网站：https://openweathermap.org/api
+print(f"OPENWEATHER_API_KEY: {os.getenv('OPENWEATHER_API_KEY')}")

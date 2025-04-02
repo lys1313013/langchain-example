@@ -17,6 +17,7 @@ LangChain框架练习包含内容：
 13. 未搞定
 14. huggingface模型下载与使用
 15. browser-use使用
+16. mcp demo
 
 # 安装依赖
 
