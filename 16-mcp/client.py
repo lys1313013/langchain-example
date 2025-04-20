@@ -9,15 +9,14 @@ from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-# 加载 .env 文件，确保 API Key 受到保护
+# 加载 .env 文件
 load_dotenv()
-
 
 class MCPClient:
     def __init__(self):
         """初始化 MCP 客户端"""
         self.exit_stack = AsyncExitStack()
-        self.openai_api_key = os.getenv("DASHSCOPE_API_KEY")  # 读取 OpenAI API Key
+        self.openai_api_key = os.getenv("DASHSCOPE_API_KEY")  # 读取 API Key
         self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"  # 读取 BASE YRL
         self.model = "qwen-turbo"  # 读取 model
         self.client = OpenAI(api_key=self.openai_api_key, base_url=self.base_url)
