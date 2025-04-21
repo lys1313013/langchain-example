@@ -7,10 +7,10 @@ mcp = FastMCP("calculate-bmi")
 @mcp.tool()
 def calculate_bmi(weight_kg: float, height_m: float) -> float:
     """Calculate BMI given weight in kg and height in meters"""
-    print(f"身高: {weight_kg} 体重：{height_m}kg")
+    result = weight_kg / (height_m ** 2)
+    print(f"身高: {height_m} 体重：{weight_kg}kg 计算结果：{result}")
     # 打印日志
-    return weight_kg / (height_m ** 2)
-
+    return result
 
 # 挂载SSE服务器到ASGI服务器上
 app = Starlette(
