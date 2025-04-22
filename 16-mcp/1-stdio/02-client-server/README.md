@@ -8,12 +8,12 @@ pip install uv
 pip insatll mcp
 ```
 
-2. 启动命令
+3. 启动命令
 ```bash
 uv run client.py server.py
 ```
 
-3. 启动后在控制台进行对话
+4. 启动后在控制台进行对话
 ![img.png](img.png)
 
 

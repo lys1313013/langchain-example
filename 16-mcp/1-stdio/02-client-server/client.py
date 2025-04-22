@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
+# 还是用的函数调用的方式
+
 # 加载 .env 文件
 load_dotenv()
 
@@ -17,8 +19,8 @@ class MCPClient:
         """初始化 MCP 客户端"""
         self.exit_stack = AsyncExitStack()
         self.openai_api_key = os.getenv("DASHSCOPE_API_KEY")  # 读取 API Key
-        self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"  # 读取 BASE YRL
-        self.model = "qwen-turbo"  # 读取 model
+        self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"  # 设置 BASE YRL
+        self.model = "qwen-turbo"  # 设置 model
         self.client = OpenAI(api_key=self.openai_api_key, base_url=self.base_url)
         # 创建OpenAI client
         self.session: Optional[ClientSession] = None
@@ -69,6 +71,7 @@ class MCPClient:
         response = self.client.chat.completions.create(
             model=self.model, messages=messages, tools=available_tools
         )
+        print(f"\n\n[发送消息 {messages}]  返回结果为: {response}\n\n")
         # 处理返回的内容
         content = response.choices[0]
         if content.finish_reason == "tool_calls":
@@ -104,8 +107,8 @@ class MCPClient:
                 query = input("\n你: ").strip()
                 if query.lower() == "quit":
                     break
-                response = await self.process_query(query)  # 发送用户输入到 OpenAI API
-                print(f"\n🤖 OpenAI: {response}")
+                response = await self.process_query(query)  # 发送用户输入给大模型
+                print(f"\n🤖 AI: {response}")
             except Exception as e:
                 print(f"\n⚠️ 发生错误: {str(e)}")
 

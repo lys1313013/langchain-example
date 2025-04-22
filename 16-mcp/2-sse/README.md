@@ -15,6 +15,7 @@ uvicorn calculate-bmi-server:app --host localhost --port 9000
 
 3. 在cherry studio配置sse接口
 
+
 ![img.png](img.png)
 
 4. 对话
