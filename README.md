@@ -2,7 +2,7 @@
 # 代码内容
 LangChain框架练习包含内容：
 
-1. 对话（包含ChatGPT、ollama、deepseek官网api、阿里百炼）
+1. 对话（包含ChatGPT、ollama、DeepSeek官网api、阿里百炼）
 2. 提示词模板
 3. 流式输出
 4. 还有问题
@@ -17,7 +17,10 @@ LangChain框架练习包含内容：
 13. 未搞定
 14. huggingface模型下载与使用
 15. browser-use使用
-16. mcp demo
+16. MCP demo
+    - STDIO
+    - SSE
+    - stream-http
 
 # 安装依赖
 
