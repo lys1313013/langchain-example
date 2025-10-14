@@ -1,14 +1,20 @@
 # 获取图片后base64发送给大模型
 import base64
+import os
+
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
 # 用httpx,获取图片的base64编码
 import httpx
 
-image_url = "https://avatars.githubusercontent.com/u/64422807?v=4"
+image_url = "https://img0.baidu.com/it/u=4036329736,2858248034&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1200"
 # 将图片二进制数据转换为base64编码
 image_data = base64.b64encode(httpx.get(image_url).content).decode("utf-8")
-model = ChatOpenAI(model="gpt-4o")
+chatLLM = ChatOpenAI(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    model="qwen3-vl-plus",  # 可按需更换模型名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+)
 message = HumanMessage(
     content=[
         {"type": "text", "text": "用中文描述描述这张图片"},
@@ -19,7 +25,6 @@ message = HumanMessage(
     ],
 )
 
-response = model.invoke([message])
+response = chatLLM.invoke([message])
 print(response.content)
 
-# 这张图片的背景是简单的灰色，给人一种简洁和宁静的感觉。画面中人物的头发呈深色卷发，线条柔和，增添了些许艺术感。发间融入了一些灰色的花瓣图案，仿佛花瓣从头发中生长出来，让整体效果显得富有创意和美感。人物穿着一件白色上衣，与整个色调的搭配和谐，看起来干净而柔和。整个图像呈现出一种朦胧且充满梦幻的风格。
