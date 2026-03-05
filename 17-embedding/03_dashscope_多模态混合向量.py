@@ -19,11 +19,10 @@ input_data = [
 
 # 使用 qwen3-vl-embedding 生成融合向量
 resp = dashscope.MultiModalEmbedding.call(
-    # 若没有配置环境变量，请用百炼API Key将下行替换为：api_key="sk-xxx",
     api_key=os.getenv("DASHSCOPE_API_KEY"),
     model="qwen3-vl-embedding",
     input=input_data,
-    dimension = 1024
+    dimension=1024
 )
 
 print(json.dumps(resp.output, indent=4))
